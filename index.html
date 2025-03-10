@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord Karting - Reynald vs Romman</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .stat-title {
+            color: #6c757d;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+        .winner {
+            color: #28a745;
+        }
+        .header-icon {
+            font-size: 2rem;
+            margin-right: 0.5rem;
+            color: #007bff;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #007bff;
+        }
+        .top-kart {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+        }
+        .kart-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+        .table-header {
+            background-color: #f1f5f9;
+        }
+        .progress-container {
+            background-color: #e9ecef;
+            border-radius: 10px;
+            height: 8px;
+            width: 100%;
+            margin-top: 5px;
+        }
+        .progress-bar {
+            height: 8px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+        }
+        .reynald-color {
+            color: #6a11cb;
+        }
+        .romman-color {
+            color: #2575fc;
+        }
+        .trophy-icon {
+            color: gold;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header Section -->
+        <header class="text-center mb-12">
+            <div class="flex justify-center items-center mb-4">
+                <i class="fas fa-flag-checkered header-icon"></i>
+                <h1 class="text-4xl font-bold">Duel Karting</h1>
+            </div>
+            <div class="flex justify-center">
+                <h2 class="text-3xl font-bold reynald-color">Reynald</h2>
+                <h2 class="text-3xl mx-4">vs</h2>
+                <h2 class="text-3xl font-bold romman-color">Romman</h2>
+            </div>
+            <p class="text-gray-600 mt-2">Circuit de Saint-Sébastien | 624 tours enregistrés</p>
+        </header>
+
+        <!-- Main Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <!-- Reynald Card -->
+            <div class="card bg-white p-6">
+                <div class="flex items-center mb-6">
+                    <i class="fas fa-user-circle text-4xl reynald-color mr-4"></i>
+                    <h3 class="text-2xl font-bold">Reynald PRIEUR</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="stat-card">
+                        <div class="stat-value winner">41.562s</div>
+                        <div class="stat-title">Meilleur temps</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">44.87s</div>
+                        <div class="stat-title">Temps moyen</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">305</div>
+                        <div class="stat-title">Nombre de tours</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Romman Card -->
+            <div class="card bg-white p-6">
+                <div class="flex items-center mb-6">
+                    <i class="fas fa-user-circle text-4xl romman-color mr-4"></i>
+                    <h3 class="text-2xl font-bold">Romman RICHARD</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="stat-card">
+                        <div class="stat-value">41.671s</div>
+                        <div class="stat-title">Meilleur temps</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">45.17s</div>
+                        <div class="stat-title">Temps moyen</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">319</div>
+                        <div class="stat-title">Nombre de tours</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Face to Face Comparison -->
+        <div class="card bg-white p-6 mb-12">
+            <h3 class="section-title text-2xl font-bold">Comparaison directe</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Meilleur temps -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-2">Meilleur temps</h4>
+                    <div class="flex justify-between mb-1">
+                        <span class="font-medium reynald-color">Reynald: 41.562s</span>
+                        <span class="font-medium romman-color">Romman: 41.671s</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 51%;"></div>
+                    </div>
+                    <p class="text-right text-sm mt-2">Écart: <span class="font-bold">0.109s</span> en faveur de Reynald</p>
+                </div>
+                
+                <!-- Temps moyen -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-2">Temps moyen</h4>
+                    <div class="flex justify-between mb-1">
+                        <span class="font-medium reynald-color">Reynald: 44.87s</span>
+                        <span class="font-medium romman-color">Romman: 45.17s</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 52%;"></div>
+                    </div>
+                    <p class="text-right text-sm mt-2">Écart: <span class="font-bold">0.299s</span> en faveur de Reynald</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Chart -->
+        <div class="card bg-white p-6 mb-12">
+            <h3 class="section-title text-2xl font-bold">Évolution des performances</h3>
+            <div style="height: 300px;">
+                <canvas id="performanceChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Top Karts Section -->
+        <div class="card bg-white p-6 mb-12">
+            <h3 class="section-title text-2xl font-bold">Top 5 des karts</h3>
+            
+            <!-- Top Kart - Special Highlight -->
+            <div class="top-kart card p-4 mb-6">
+                <div class="flex items-center">
+                    <i class="fas fa-trophy trophy-icon text-2xl"></i>
+                    <span class="kart-number">#16</span>
+                    <div>
+                        <div class="text-xl font-bold">Meilleur temps: 41.562s</div>
+                        <div>Piloté par: Reynald PRIEUR</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Other Top Karts -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white">
+                    <thead class="table-header">
+                        <tr>
+                            <th class="py-3 px-4 text-left">Position</th>
+                            <th class="py-3 px-4 text-left">Kart</th>
+                            <th class="py-3 px-4 text-left">Meilleur temps</th>
+                            <th class="py-3 px-4 text-left">Nombre de tours</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="py-3 px-4">2</td>
+                            <td class="py-3 px-4 font-medium">Kart #9</td>
+                            <td class="py-3 px-4">41.615s</td>
+                            <td class="py-3 px-4">24</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4">3</td>
+                            <td class="py-3 px-4 font-medium">Kart #10</td>
+                            <td class="py-3 px-4">41.671s</td>
+                            <td class="py-3 px-4">25</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4">4</td>
+                            <td class="py-3 px-4 font-medium">Kart #6</td>
+                            <td class="py-3 px-4">41.816s</td>
+                            <td class="py-3 px-4">34</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4">5</td>
+                            <td class="py-3 px-4 font-medium">Kart #5</td>
+                            <td class="py-3 px-4">41.957s</td>
+                            <td class="py-3 px-4">38</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Mentions Section -->
+        <div class="card bg-white p-6">
+            <h3 class="section-title text-2xl font-bold">Mentions spéciales</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-4 border border-gray-200 rounded-lg">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-medal text-amber-500 mr-2"></i>
+                        <h4 class="text-lg font-semibold">Performance exceptionnelle</h4>
+                    </div>
+                    <p>Reynald a établi le record absolu avec un temps de 41.562s lors de la session 19 (tour 6).</p>
+                </div>
+                
+                <div class="p-4 border border-gray-200 rounded-lg">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-chart-line text-emerald-500 mr-2"></i>
+                        <h4 class="text-lg font-semibold">Progression notable</h4>
+                    </div>
+                    <p>Les deux pilotes ont amélioré leurs temps de plus de 5 secondes entre la première et la dernière session.</p>
+                </div>
+                
+                <div class="p-4 border border-gray-200 rounded-lg">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-balance-scale text-blue-500 mr-2"></i>
+                        <h4 class="text-lg font-semibold">Équilibre</h4>
+                    </div>
+                    <p>Seulement 0.109s séparent les meilleurs temps des deux pilotes, démontrant une rivalité très serrée!</p>
+                </div>
+                
+                <div class="p-4 border border-gray-200 rounded-lg">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-fire text-red-500 mr-2"></i>
+                        <h4 class="text-lg font-semibold">Constance</h4>
+                    </div>
+                    <p>Romman a effectué plus de tours (319) que Reynald (305), montrant une endurance légèrement supérieure.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white text-center py-4 mt-12">
+        <p>Analyse Karting - Circuit de Saint-Sébastien - Généré le 10 mars 2025</p>
+    </footer>
+
+    <script>
+        // Performance Chart
+        const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+        
+        // Data représentant les 10 premières sessions
+        const sessionLabels = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10'];
+        const reynaldTimes = [46.463, 44.513, 44.449, 45.037, 43.962, 45.543, 42.275, 43.384, 43.246, 43.593];
+        const rommanTimes = [47.428, 44.969, 44.731, 45.443, 44.216, 45.139, 43.391, 43.219, 43.113, 43.448];
+        
+        new Chart(performanceCtx, {
+            type: 'line',
+            data: {
+                labels: sessionLabels,
+                datasets: [
+                    {
+                        label: 'Reynald',
+                        data: reynaldTimes,
+                        borderColor: '#6a11cb',
+                        backgroundColor: 'rgba(106, 17, 203, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.2,
+                        pointBackgroundColor: '#6a11cb',
+                        pointRadius: 4
+                    },
+                    {
+                        label: 'Romman',
+                        data: rommanTimes,
+                        borderColor: '#2575fc',
+                        backgroundColor: 'rgba(37, 117, 252, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.2,
+                        pointBackgroundColor: '#2575fc',
+                        pointRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                },
+                scales: {
+                    y: {
+                        min: 40,
+                        max: 48,
+                        title: {
+                            display: true,
+                            text: 'Temps (secondes)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Sessions'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
